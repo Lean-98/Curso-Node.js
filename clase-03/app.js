@@ -11,9 +11,9 @@ app.use(cors({
     const ACCEPTED_ORIGINS = [
       'http://localhost:8080',
       'http://localhost:1234',
-      'http://127.0.0.1:5500',
+      'http://127.0.0.1:5500'
     ]
-    if ( ACCEPTED_ORIGINS.includes(origin)) {
+    if (ACCEPTED_ORIGINS.includes(origin)) {
       return callback(null, true)
     }
 
@@ -31,26 +31,24 @@ app.disable('x-powered-by') // deshabilitar el header X-Powered-By: Express
 
 // CORS PRE-Flight
 
-
-
 // Todos los recursos que sean MOVIES se identifica con /movies
 app.get('/movies', (req, res) => {
-    const { genre } = req.query
-    if (genre) {
-        const filteredMovies = movies.filter(
-            movie => movie.genre.some(g => g.toLocaleLowerCase() === genre.toLowerCase())
-        )
-        return res.json(filteredMovies)
-    }
-    res.json(movies)
+  const { genre } = req.query
+  if (genre) {
+    const filteredMovies = movies.filter(
+      movie => movie.genre.some(g => g.toLocaleLowerCase() === genre.toLowerCase())
+    )
+    return res.json(filteredMovies)
+  }
+  res.json(movies)
 })
 
 app.get('/movies/:id', (req, res) => { // path-to-regexp
-    const { id } = req.params
-    const movie = movies.find(movie => movie.id === id)
-    if (movie) return res.json(movie)
+  const { id } = req.params
+  const movie = movies.find(movie => movie.id === id)
+  if (movie) return res.json(movie)
 
-    res.status(404).json({message: 'Movie not found'})
+  res.status(404).json({ message: 'Movie not found' })
 })
 
 app.post('/movies', (req, res) => {
@@ -68,7 +66,7 @@ app.post('/movies', (req, res) => {
   }
 
   // Esto no sería REST, porque estamos guardando
-  // el estado de la aplicación en memoria 
+  // el estado de la aplicación en memoria
   movies.push(newMovie)
   res.status(201).json(newMovie)
 })
@@ -86,19 +84,18 @@ app.delete('/movies/:id', (req, res) => {
   return res.json({ message: 'Movie deleted' })
 })
 
-
 app.patch('/movies/:id', (req, res) => {
-    const result = validatePartialMovie(req.body)
+  const result = validatePartialMovie(req.body)
 
-    if (!result.success) {
-      return res.status(400).json({ error: JSON.parse(result.error.message )})
-    }
-    
-    const { id } = req.params
-    const movieIndex = movies.findIndex(movie => movie.id === id)
-    
+  if (!result.success) {
+    return res.status(400).json({ error: JSON.parse(result.error.message) })
+  }
+
+  const { id } = req.params
+  const movieIndex = movies.findIndex(movie => movie.id === id)
+
   if (movieIndex === -1) {
-    return res.status(404).json({ message: 'Movie not found'})
+    return res.status(404).json({ message: 'Movie not found' })
   }
 
   const updateMovie = {
@@ -114,5 +111,5 @@ app.patch('/movies/:id', (req, res) => {
 const PORT = process.env.PORT ?? 1234
 
 app.listen(PORT, () => {
-    console.log(`server listening on port http://localhost:${PORT}`)
+  console.log(`server listening on port http://localhost:${PORT}`)
 })
