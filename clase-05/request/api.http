@@ -1,0 +1,41 @@
+### Recuperar todas las películas
+GET http://localhost:1234/movies
+### Recuperar una película por id
+GET http://localhost:1234/movies/373edd84-9475-11ee-ba8a-4ccc6afcbba7
+
+### Recuperar todas las películas por un género
+GET http://localhost:1234/movies?genre=action
+
+### Crear una película con POST
+POST http://localhost:1234/movies
+Content-Type: application/json
+
+{
+    "title": "The Matrix",
+    "year": 1999,
+    "director": "Lana Wachowski",
+    "duration": 136,
+    "poster": "https://i.ebayimg.com/images/g/QFQAAOSwAQpfjaA6/s-l1200.jpg",
+    "rate": 8.5,
+    "genre": [
+        "Crime",
+        "Drama"
+    ]
+}
+
+### Borrar una película
+DELETE http://localhost:1234/movies/de76ec17-968c-11ee-bc2c-4ccc6afcbba7
+
+
+### Actualizar una película 
+PATCH http://localhost:1234/movies/b49662ae-969e-11ee-bc2c-4ccc6afcbba7
+Content-Type: application/json
+
+{
+  "title": "Nuevo título",
+  "year": 2023,
+  "director": "Nuevo director",
+  "duration": 120,
+  "poster": "https://example.com/nuevo-poster.jpg",
+  "rate": 8.5
+}
